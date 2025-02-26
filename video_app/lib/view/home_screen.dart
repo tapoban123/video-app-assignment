@@ -32,22 +32,24 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 14.0),
-            child: TextButton(
-              onPressed: () {
-                Provider.of<MediaPickerProvider>(
-                  context,
-                  listen: false,
-                ).selectVideo();
-              },
-              style: TextButton.styleFrom(
-                backgroundColor: Colors.blueAccent,
-                minimumSize: Size(100, 40),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)),
-              ),
-              child: Text(
-                "Upload",
-                style: TextStyle(color: Colors.white),
+            child: Consumer<MediaPickerProvider>(
+              builder: (context, mediaProvider, child) => TextButton(
+                onPressed: () async {
+                  await mediaProvider.selectVideo();
+                  if (mediaProvider.videoPath != null && context.mounted) {
+                    uploadToFirebaseDialog(context);
+                  }
+                },
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.blueAccent,
+                  minimumSize: Size(100, 40),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                ),
+                child: Text(
+                  "Upload",
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
             ),
           ),
@@ -121,25 +123,72 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             );
           }
-          // if (mediaProvider.videoPath != null) {
-          //   return ElevatedButton(
-          //     onPressed: () {
-          //       Navigator.of(context).push(MaterialPageRoute(
-          //         builder: (context) => VideoPlayerScreen(),
-          //       ));
-          //     },
-          //     style: ElevatedButton.styleFrom(
-          //       shape: RoundedRectangleBorder(
-          //           borderRadius: BorderRadius.circular(10)),
-          //     ),
-          //     child: Text("Play Video"),
-          //   );
-          // }
-          // return Center(
-          //   child: Text("Your Videos will appear here."),
-          // );
         },
       ),
     );
   }
+}
+
+void uploadToFirebaseDialog(BuildContext context) {
+  final TextEditingController nameController = TextEditingController();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (context) => AlertDialog(
+      title: Text("Please name your file"),
+      content: SizedBox(
+        height: 80,
+        child: Form(
+          key: formKey,
+          child: Column(
+            children: [
+              TextFormField(
+                controller: nameController,
+                decoration: InputDecoration(
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide.none,
+                  ),filled: true,
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide.none,
+                  ),
+                  focusedErrorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(color: Colors.red),
+                  ),
+                  hintText: "Enter file name",
+                ),
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return "Please enter a valid file name";
+                  }
+                  return null;
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: Text("Cancel"),
+        ),
+        TextButton(
+          onPressed: () {
+            if (formKey.currentState!.validate()) {
+              debugPrint("Validated");
+            }
+            debugPrint("Validation Failed");
+          },
+          child: Text("Upload"),
+        ),
+      ],
+    ),
+  );
 }
