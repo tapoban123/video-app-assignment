@@ -6,6 +6,7 @@ import 'package:video_app/services/firestore_services.dart';
 import 'package:video_app/view/home_screen.dart';
 import 'package:video_app/view_model/firebase_services_provider.dart';
 import 'package:video_app/view_model/media_picker_provider.dart';
+import 'package:video_app/view_model/video_player_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,7 +27,10 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => MediaPickerProvider()),
         ChangeNotifierProvider(
             create: (_) => FirebaseServicesProvider(
-                firestoreServices: FirestoreServices()))
+                firestoreServices: FirestoreServices())),
+        ChangeNotifierProvider(
+          create: (_) => VideoPlayerProvider(),
+        )
       ],
       builder: (context, child) => MaterialApp(
         title: "Video App",
