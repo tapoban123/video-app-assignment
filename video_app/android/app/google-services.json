@@ -1,0 +1,106 @@
+{
+  "project_info": {
+    "project_number": "663560481598",
+    "firebase_url": "https://employee-details-d285e-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "employee-details-d285e",
+    "storage_bucket": "employee-details-d285e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:663560481598:android:8ad5d432fffea8c89f1a6f",
+        "android_client_info": {
+          "package_name": "com.example.employee_details"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQvSGMFWiddng9hd20dJtXWKbqYGYyZYc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:663560481598:android:14a5896da38604cd9f1a6f",
+        "android_client_info": {
+          "package_name": "com.example.messages_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQvSGMFWiddng9hd20dJtXWKbqYGYyZYc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:663560481598:android:af476d70331f51559f1a6f",
+        "android_client_info": {
+          "package_name": "com.example.simple_database_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQvSGMFWiddng9hd20dJtXWKbqYGYyZYc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:663560481598:android:6b4cf181621665cc9f1a6f",
+        "android_client_info": {
+          "package_name": "com.example.video_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQvSGMFWiddng9hd20dJtXWKbqYGYyZYc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:663560481598:android:45290fc91e02e8479f1a6f",
+        "android_client_info": {
+          "package_name": "com.example.whatsapp_bulk_msg_sender"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQvSGMFWiddng9hd20dJtXWKbqYGYyZYc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
