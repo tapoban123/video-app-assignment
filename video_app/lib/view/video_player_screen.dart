@@ -20,6 +20,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
   late VideoPlayerController _videoPlayerController;
   late AnimationController _animationController;
   late Animation<double> iconAnimation;
+  late VideoPlayerProvider playerProvider;
 
   @override
   void initState() {
@@ -32,20 +33,20 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
       curve: Curves.easeInCubic,
     ));
 
-    Provider.of<VideoPlayerProvider>(
+    playerProvider = Provider.of<VideoPlayerProvider>(
       context,
       listen: false,
-    ).initVideoPlayer(widget.videoUrl);
+    ); 
+
+    playerProvider.initVideoPlayer(widget.videoUrl);
 
     super.initState();
   }
 
   @override
   void dispose() {
-    Provider.of<VideoPlayerProvider>(
-      context,
-      listen: false,
-    ).dispose();
+    playerProvider.resetProvider();
+    _videoPlayerController.dispose();
     _animationController.dispose();
     super.dispose();
   }

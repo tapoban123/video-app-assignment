@@ -20,13 +20,24 @@ class FirestoreServices {
     debugPrint(url);
   }
 
-  Future<String> getFileUrl({
+  Future<void> deleteVideoFile({
     required String fileName,
   }) async {
     final path = "$folderName/$fileName";
-    final url = ref.child(path).getDownloadURL();
+    await ref.child(path).delete();
+  }
 
-    return url;
+  Future<void> checkIfFileExists({
+    required String fileName,
+  }) async {
+    final path = "$folderName/$fileName";
+
+    try {
+      final url = await ref.child(path).getDownloadURL();
+      debugPrint(url);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   Future<List<VideoDataModel>> getAllFiles() async {

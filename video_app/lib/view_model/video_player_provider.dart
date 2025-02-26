@@ -3,8 +3,16 @@ import 'package:video_player/video_player.dart';
 
 class VideoPlayerProvider extends ChangeNotifier {
   late VideoPlayerController _videoPlayerController;
+  bool _isLoading = true;
 
-  bool _isLoading = false;
+  // if (_isLoading == false) {
+  //   _setLoading(true);
+  // }
+
+  void resetProvider(){
+    _isLoading = true;
+  }
+
   bool get isLoading => _isLoading;
 
   VideoPlayerController get videoPlayerController => _videoPlayerController;
@@ -15,26 +23,19 @@ class VideoPlayerProvider extends ChangeNotifier {
   }
 
   void initVideoPlayer(String videoUrl) async {
-    _setLoading(true);
     _videoPlayerController =
         VideoPlayerController.networkUrl(Uri.parse(videoUrl));
     await _videoPlayerController.initialize();
     _setLoading(false);
   }
 
-  void pausePlayer(){
+  void pausePlayer() {
     _videoPlayerController.pause();
     notifyListeners();
   }
 
-  void playPlayer(){
+  void playPlayer() {
     _videoPlayerController.play();
     notifyListeners();
-  }
-
-  @override
-  void dispose() {
-    _videoPlayerController.dispose();
-    super.dispose();
   }
 }

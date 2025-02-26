@@ -12,8 +12,14 @@ class FirebaseServicesProvider extends ChangeNotifier {
   // String? get videoUrl => _videoUrl;
   List<VideoDataModel> _videosData = [];
   List<VideoDataModel> get videosData => _videosData;
-  bool _isLoading = false;
+  bool _isLoading = true;
   bool get isLoading => _isLoading;
+
+  bool _isCheckingFile = false;
+  bool get isCheckingFile => _isCheckingFile;
+
+  bool _isFileExisting = false;
+  bool get isFileExisting => _isFileExisting;
 
   void _setLoading(bool value) {
     _isLoading = value;
@@ -30,10 +36,31 @@ class FirebaseServicesProvider extends ChangeNotifier {
     );
   }
 
-  // Future<void> getVideoUrl(String fileName) async {}
+  Future<void> deleteVideo({
+    required String fileName,
+  }) async {
+    await _firestoreServices.deleteVideoFile(fileName: fileName);
+  }
+
+  Future<void> isFileExistingCheck(String fileName) async {
+    _isCheckingFile = true;
+    notifyListeners();
+    try {
+      await _firestoreServices.checkIfFileExists(fileName: fileName);
+      _isFileExisting = true;
+    } catch (e) {
+      _isFileExisting = false;
+      debugPrint(e.toString());
+    }
+    debugPrint(_isFileExisting.toString());
+    _isCheckingFile = false;
+    notifyListeners();
+  }
 
   Future<void> getAllVideos() async {
-    _setLoading(true);
+    if (_isLoading == false) {
+      _setLoading(true);
+    }
     _videosData = await _firestoreServices.getAllFiles();
     _setLoading(false);
   }
