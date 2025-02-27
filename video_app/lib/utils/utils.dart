@@ -13,6 +13,18 @@ String formatTime(DateTime time) {
   return DateFormat.jm().format(time);
 }
 
+void showSnackBarMessage(
+  BuildContext context, {
+  required String message,
+}) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      behavior: SnackBarBehavior.floating,
+      content: Text(message),
+    ),
+  );
+}
+
 Widget customCircularProgressIndicator() {
   return Center(
     child: CircularProgressIndicator(

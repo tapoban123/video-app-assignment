@@ -39,6 +39,10 @@ class FirebaseServicesProvider extends ChangeNotifier {
   Future<void> deleteVideo({
     required String fileName,
   }) async {
+    _videosData.removeWhere(
+      (element) => element.name == fileName,
+    );
+    notifyListeners();
     await _firestoreServices.deleteVideoFile(fileName: fileName);
   }
 

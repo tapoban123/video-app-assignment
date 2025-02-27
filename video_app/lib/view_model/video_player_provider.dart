@@ -9,7 +9,7 @@ class VideoPlayerProvider extends ChangeNotifier {
   //   _setLoading(true);
   // }
 
-  void resetProvider(){
+  void resetProvider() {
     _isLoading = true;
   }
 
@@ -36,6 +36,21 @@ class VideoPlayerProvider extends ChangeNotifier {
 
   void playPlayer() {
     _videoPlayerController.play();
+    notifyListeners();
+  }
+
+  void seek10SecondsForward() {
+    final Duration currentPosition = _videoPlayerController.value.position;
+    final Duration targetPosition = currentPosition + Duration(seconds: 10);
+
+    _videoPlayerController.seekTo(targetPosition);
+    notifyListeners();
+  }
+
+  void seek10SecondsBackward() {
+    final Duration currentPositon = _videoPlayerController.value.position;
+    final Duration targetPosition = currentPositon - Duration(seconds: 10);
+    _videoPlayerController.seekTo(targetPosition);
     notifyListeners();
   }
 }

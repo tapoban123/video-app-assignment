@@ -36,9 +36,18 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
     playerProvider = Provider.of<VideoPlayerProvider>(
       context,
       listen: false,
-    ); 
+    );
 
+    _animationController.forward();
     playerProvider.initVideoPlayer(widget.videoUrl);
+
+    playerProvider.videoPlayerController.addListener(
+      () {
+        if (playerProvider.videoPlayerController.value.isCompleted) {
+          _animationController.forward();
+        }
+      },
+    );
 
     super.initState();
   }
@@ -86,15 +95,24 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Icon(
-                          Icons.keyboard_double_arrow_left_rounded,
-                          size: 50,
+                        IconButton(
+                          onPressed: () {
+                            playerProvider.seek10SecondsBackward();
+                          },
+                          icon: Icon(
+                            Icons.keyboard_double_arrow_left_rounded,
+                            size: 50,
+                          ),
                         ),
                         IconButton(
                           onPressed: () {
                             if (_videoPlayerController.value.isPlaying) {
                               playerProvider.pausePlayer();
                               _animationController.forward();
+                            } else if (_videoPlayerController
+                                .value.isCompleted) {
+                              playerProvider.playPlayer();
+                              _animationController.reverse();
                             } else {
                               playerProvider.playPlayer();
                               _animationController.reverse();
@@ -106,9 +124,14 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
                             size: 50,
                           ),
                         ),
-                        Icon(
-                          Icons.keyboard_double_arrow_right_rounded,
-                          size: 50,
+                        IconButton(
+                          onPressed: () {
+                            playerProvider.seek10SecondsForward();
+                          },
+                          icon: Icon(
+                            Icons.keyboard_double_arrow_right_rounded,
+                            size: 50,
+                          ),
                         ),
                       ],
                     ),
