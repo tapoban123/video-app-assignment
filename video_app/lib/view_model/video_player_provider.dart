@@ -44,13 +44,11 @@ class VideoPlayerProvider extends ChangeNotifier {
     final Duration targetPosition = currentPosition + Duration(seconds: 10);
 
     _videoPlayerController.seekTo(targetPosition);
-    notifyListeners();
   }
 
   void seek10SecondsBackward() {
     final Duration currentPositon = _videoPlayerController.value.position;
     final Duration targetPosition = currentPositon - Duration(seconds: 10);
     _videoPlayerController.seekTo(targetPosition);
-    notifyListeners();
   }
 }

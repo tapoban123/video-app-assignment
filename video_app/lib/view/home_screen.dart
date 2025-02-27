@@ -6,6 +6,7 @@ import 'package:video_app/view/video_player_screen.dart';
 import 'package:video_app/view_model/firebase_services_provider.dart';
 import 'package:video_app/view_model/media_picker_provider.dart';
 
+/// Implements the Screen where all the uploaded videos are displayed.
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -65,10 +66,62 @@ class _HomeScreenState extends State<HomeScreen> {
           }
 
           if (mediaProvider.videosData.isEmpty) {
-            return Center(
-              child: Text("No Videos Availalble"),
+            /// Message to display when no videos are present in Firebase Storage.
+            return SizedBox(
+              width: double.infinity,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    "No Videos Availalble",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Provider.of<FirebaseServicesProvider>(
+                        context,
+                        listen: false,
+                      ).getAllVideos();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.indigoAccent,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      minimumSize: Size(180, 40),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          "Refresh",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 15,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Icon(
+                          Icons.refresh,
+                          color: Colors.white,
+                          size: 20,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             );
           } else {
+            /// Displayed when one or more videos are present in Cloud Firestore.
             return RefreshIndicator(
               onRefresh: () => mediaProvider.getAllVideos(),
               child: ListView.builder(
@@ -151,6 +204,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
+/// Dialog box displayed for confirmation when the user
+/// wants to delete an uploaded video.
 void showDeleteConfirmDialog(
   BuildContext context, {
   required String fileName,
@@ -179,6 +234,8 @@ void showDeleteConfirmDialog(
   );
 }
 
+/// DialogBox displayed when the user wants to upload a video
+/// to cloud firestore.
 void showUploadToFirebaseDialog(
   BuildContext context, {
   required String filePath,
@@ -194,8 +251,43 @@ void showUploadToFirebaseDialog(
     borderSide: BorderSide(color: Colors.red),
   );
 
-  // final fileIsExisting =
-  //     Provider.of<FirebaseServicesProvider>(context).isFileExisting;
+  void uploadVideoFunction() async {
+    if (formKey.currentState!.validate()) {
+      debugPrint("Validated");
+      final String fileName = "${nameController.text.trim()}.mp4";
+
+      Provider.of<FirebaseServicesProvider>(
+        context,
+        listen: false,
+      ).isFileExistingCheck(fileName).then(
+        (value) async {
+          final isFilePresent = context.mounted &&
+              Provider.of<FirebaseServicesProvider>(context, listen: false)
+                  .isFileExisting;
+
+          debugPrint(isFilePresent.toString());
+          if (context.mounted && !isFilePresent) {
+            await Provider.of<FirebaseServicesProvider>(
+              context,
+              listen: false,
+            ).uploadFile(
+              fileName: fileName,
+              videoFile: filePath,
+            );
+
+            if (context.mounted) {
+              Navigator.of(context).pop();
+              showDialogLoader(context);
+            }
+            debugPrint("File Exists: $isFilePresent");
+            debugPrint("File uploaded successfully.");
+          }
+        },
+      );
+    } else {
+      debugPrint("Validation Failed");
+    }
+  }
 
   showDialog(
     context: context,
@@ -277,44 +369,7 @@ void showUploadToFirebaseDialog(
         DialogTextButton(
           buttonColor: Colors.blue,
           buttonText: "Upload",
-          onPressed: () async {
-            if (formKey.currentState!.validate()) {
-              debugPrint("Validated");
-              final String fileName = "${nameController.text.trim()}.mp4";
-
-              Provider.of<FirebaseServicesProvider>(
-                context,
-                listen: false,
-              ).isFileExistingCheck(fileName).then(
-                (value) async {
-                  final isFilePresent = context.mounted &&
-                      Provider.of<FirebaseServicesProvider>(context,
-                              listen: false)
-                          .isFileExisting;
-
-                  debugPrint(isFilePresent.toString());
-                  if (context.mounted && !isFilePresent) {
-                    await Provider.of<FirebaseServicesProvider>(
-                      context,
-                      listen: false,
-                    ).uploadFile(
-                      fileName: fileName,
-                      videoFile: filePath,
-                    );
-
-                    if (context.mounted) {
-                      Navigator.of(context).pop();
-                      showDialogLoader(context);
-                    }
-                    debugPrint("File Exists: $isFilePresent");
-                    debugPrint("File uploaded successfully.");
-                  }
-                },
-              );
-            } else {
-              debugPrint("Validation Failed");
-            }
-          },
+          onPressed: uploadVideoFunction,
         ),
       ],
     ),

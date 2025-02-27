@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+/// TextButton displayed on dialogs
+/// When no values are passed, it implements a Cancel Button.
 class DialogTextButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final String? buttonText;

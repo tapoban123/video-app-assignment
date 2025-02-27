@@ -3,10 +3,12 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:video_app/view_model/firebase_services_provider.dart';
 
+/// Converts bytesToMb
 String bytesToMB(int bytes) {
   return (bytes / 1_048_576).toStringAsFixed(2);
 }
 
+/// Formats 
 String formatDate(DateTime date) {
   return DateFormat.yMMMMd().format(date);
 }
@@ -47,7 +49,10 @@ void showDialogLoader(BuildContext context, {bool removeLoader = false}) {
                   Navigator.of(context).pop();
                 }
                 final progress = data.bytesTransferred / data.totalBytes;
-                return customCircularProgressIndicator(value: progress);
+                return customCircularProgressIndicator(
+                  value: progress,
+                  backgroundColor: Colors.white24,
+                );
               }
               return SizedBox.shrink();
             },
@@ -68,12 +73,16 @@ void showDialogLoader(BuildContext context, {bool removeLoader = false}) {
   );
 }
 
-Widget customCircularProgressIndicator({double? value}) {
+Widget customCircularProgressIndicator({
+  double? value,
+  Color? backgroundColor,
+}) {
   return Center(
     child: CircularProgressIndicator(
       color: Colors.white,
       strokeWidth: 2,
       value: value,
+      backgroundColor: backgroundColor,
     ),
   );
 }
