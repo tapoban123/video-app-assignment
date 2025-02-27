@@ -1,3 +1,4 @@
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:video_app/model/video_data_model.dart';
 import 'package:video_app/services/firestore_services.dart';
@@ -10,6 +11,9 @@ class FirebaseServicesProvider extends ChangeNotifier {
 
   // String? _videoUrl = null;
   // String? get videoUrl => _videoUrl;
+  UploadTask? _uploadTask;
+  UploadTask? get uploadTask => _uploadTask;
+
   List<VideoDataModel> _videosData = [];
   List<VideoDataModel> get videosData => _videosData;
   bool _isLoading = true;
@@ -30,7 +34,7 @@ class FirebaseServicesProvider extends ChangeNotifier {
     required String fileName,
     required String videoFile,
   }) async {
-    await _firestoreServices.uploadFileToFirebase(
+    _uploadTask = await _firestoreServices.uploadFileToFirebase(
       fileName: fileName,
       videoFile: videoFile,
     );

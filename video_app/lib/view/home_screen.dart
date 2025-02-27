@@ -171,7 +171,6 @@ void showDeleteConfirmDialog(
               listen: false,
             ).deleteVideo(fileName: fileName);
 
-            
             Navigator.of(context).pop();
           },
         )
@@ -278,7 +277,7 @@ void showUploadToFirebaseDialog(
         DialogTextButton(
           buttonColor: Colors.blue,
           buttonText: "Upload",
-          onPressed: () {
+          onPressed: () async {
             if (formKey.currentState!.validate()) {
               debugPrint("Validated");
               final String fileName = "${nameController.text.trim()}.mp4";
@@ -287,7 +286,7 @@ void showUploadToFirebaseDialog(
                 context,
                 listen: false,
               ).isFileExistingCheck(fileName).then(
-                (value) {
+                (value) async {
                   final isFilePresent = context.mounted &&
                       Provider.of<FirebaseServicesProvider>(context,
                               listen: false)
@@ -295,19 +294,18 @@ void showUploadToFirebaseDialog(
 
                   debugPrint(isFilePresent.toString());
                   if (context.mounted && !isFilePresent) {
-                    Provider.of<FirebaseServicesProvider>(
+                    await Provider.of<FirebaseServicesProvider>(
                       context,
                       listen: false,
                     ).uploadFile(
                       fileName: fileName,
                       videoFile: filePath,
                     );
-                    Navigator.of(context).pop();
 
-                    showSnackBarMessage(
-                      context,
-                      message: "File Uploaded successfully.",
-                    );
+                    if (context.mounted) {
+                      Navigator.of(context).pop();
+                      showDialogLoader(context);
+                    }
                     debugPrint("File Exists: $isFilePresent");
                     debugPrint("File uploaded successfully.");
                   }

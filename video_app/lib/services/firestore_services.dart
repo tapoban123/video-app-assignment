@@ -8,16 +8,18 @@ class FirestoreServices {
   final ref = FirebaseStorage.instance.ref();
   final String folderName = "video-files";
 
-  Future<void> uploadFileToFirebase({
+  Future<UploadTask> uploadFileToFirebase({
     required String fileName,
     required String videoFile,
   }) async {
     final path = "$folderName/$fileName";
     final file = File(videoFile);
 
-    final snapshot = await ref.child(path).putFile(file);
-    final url = await snapshot.ref.getDownloadURL();
-    debugPrint(url);
+    final snapshot = ref.child(path);
+    return snapshot.putFile(file);
+
+    // final url = await snapshot.getDownloadURL();
+    // debugPrint(url);
   }
 
   Future<void> deleteVideoFile({

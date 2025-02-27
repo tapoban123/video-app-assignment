@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:video_app/view_model/firebase_services_provider.dart';
 
 String bytesToMB(int bytes) {
   return (bytes / 1_048_576).toStringAsFixed(2);
@@ -25,11 +27,53 @@ void showSnackBarMessage(
   );
 }
 
-Widget customCircularProgressIndicator() {
+void showDialogLoader(BuildContext context, {bool removeLoader = false}) {
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (context) {
+      final uploadTask =
+          Provider.of<FirebaseServicesProvider>(context).uploadTask;
+
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          StreamBuilder(
+            stream: uploadTask?.snapshotEvents,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                final data = snapshot.data!;
+                if (data.bytesTransferred == data.totalBytes) {
+                  Navigator.of(context).pop();
+                }
+                final progress = data.bytesTransferred / data.totalBytes;
+                return customCircularProgressIndicator(value: progress);
+              }
+              return SizedBox.shrink();
+            },
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Text(
+            "Please wait while your file is being uploaded.",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 15,
+            ),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+Widget customCircularProgressIndicator({double? value}) {
   return Center(
     child: CircularProgressIndicator(
       color: Colors.white,
       strokeWidth: 2,
+      value: value,
     ),
   );
 }
