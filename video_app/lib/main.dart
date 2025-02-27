@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:video_app/firebase_options.dart';
 import 'package:video_app/services/firestore_services.dart';
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => MediaPickerProvider()),
