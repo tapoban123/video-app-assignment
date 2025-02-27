@@ -1,5 +1,7 @@
 # Video App Assignment Project
 
+## Watch the screen recording of the video [here](https://drive.google.com/file/d/187HxH8QkvA3cr9Qp-mIIQNUiT1E6hinE/view?usp=sharing).
+
 ## Timings:
 `Initial Commit:` **`26 Feb 2025 at 03:28PM`**
 
