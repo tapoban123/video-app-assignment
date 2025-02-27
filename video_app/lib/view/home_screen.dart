@@ -123,6 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
           } else {
             /// Displayed when one or more videos are present in Cloud Firestore.
             return RefreshIndicator(
+              color: Colors.white,
               onRefresh: () => mediaProvider.getAllVideos(),
               child: ListView.builder(
                 itemCount: mediaProvider.videosData.length,

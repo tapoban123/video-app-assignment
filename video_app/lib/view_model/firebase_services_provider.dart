@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:video_app/model/video_data_model.dart';
 import 'package:video_app/services/firestore_services.dart';
 
+/// Provider to connect FirebaseServices with HomeScreen UI.
 class FirebaseServicesProvider extends ChangeNotifier {
   late final FirestoreServices _firestoreServices;
 

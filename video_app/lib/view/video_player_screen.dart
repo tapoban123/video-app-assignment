@@ -4,6 +4,7 @@ import 'package:video_app/utils/utils.dart';
 import 'package:video_app/view_model/video_player_provider.dart';
 import 'package:video_player/video_player.dart';
 
+/// Implements the screen when the videos are played from networkUrl.
 class VideoPlayerScreen extends StatefulWidget {
   final String videoUrl;
   const VideoPlayerScreen({

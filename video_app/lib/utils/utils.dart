@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:video_app/view/home_screen.dart';
 import 'package:video_app/view_model/firebase_services_provider.dart';
 
 /// Converts bytesToMb
@@ -8,15 +9,17 @@ String bytesToMB(int bytes) {
   return (bytes / 1_048_576).toStringAsFixed(2);
 }
 
-/// Formats 
+/// Formats DateTime to readable Date.
 String formatDate(DateTime date) {
   return DateFormat.yMMMMd().format(date);
 }
 
+/// Formats DateTime to readable Time.
 String formatTime(DateTime time) {
   return DateFormat.jm().format(time);
 }
 
+/// Displays SnackBar with message.
 void showSnackBarMessage(
   BuildContext context, {
   required String message,
@@ -29,6 +32,8 @@ void showSnackBarMessage(
   );
 }
 
+/// Displays loader inside a Dialog.
+/// Implemented on [HomeScreen].
 void showDialogLoader(BuildContext context, {bool removeLoader = false}) {
   showDialog(
     context: context,
@@ -73,6 +78,7 @@ void showDialogLoader(BuildContext context, {bool removeLoader = false}) {
   );
 }
 
+/// Returns a custom circularProgressIndicator.
 Widget customCircularProgressIndicator({
   double? value,
   Color? backgroundColor,
@@ -87,14 +93,17 @@ Widget customCircularProgressIndicator({
   );
 }
 
+/// Returns current height of screen.
 double screenHeight(BuildContext context) {
   return MediaQuery.sizeOf(context).height;
 }
 
+/// Returns current width of screen.
 double screenWidth(BuildContext context) {
   return MediaQuery.sizeOf(context).width;
 }
 
+/// Create animation when navigating to another page.
 void pageRouteNavigationAnimation(
   BuildContext context,
   Widget navigateToPage,

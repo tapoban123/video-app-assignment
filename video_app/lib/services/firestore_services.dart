@@ -4,6 +4,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:video_app/model/video_data_model.dart';
 
+/// Implements all the required methods to upload and
+/// fetch video files from FirebaseCloudStorage successfully.
 class FirestoreServices {
   final ref = FirebaseStorage.instance.ref();
   final String folderName = "video-files";

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:video_app/view/video_player_screen.dart';
 import 'package:video_player/video_player.dart';
 
+/// Provider to manage states of the VideoPlayer with the [VideoPlayerScreen]
 class VideoPlayerProvider extends ChangeNotifier {
   late VideoPlayerController _videoPlayerController;
   bool _isLoading = true;

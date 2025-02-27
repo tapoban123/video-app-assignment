@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:video_app/services/media_picker.dart';
 
+/// Provider that allows the UI to access the mediaPicker services.
 class MediaPickerProvider extends ChangeNotifier {
   String? _videoPath;
   bool _isLoading = false;
