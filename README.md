@@ -3,11 +3,8 @@
 ## Timings:
 `Initial Commit:` **`26 Feb 2025 at 03:28PM`**
 
-`Final Commit:` **`27 Feb 2025 12:41PM`**
-
-`No code logic changes were done after Final Commit.`
-
-`Documented the entire code`: **``**
+`Final Commit:` **`27 Feb 2025 at 05:02PM`**
+<br>`NO CHANGE IN CODE WHERE MADE AFTER FINAL COMMIT.`
 
 
 ## State Management Solution used:
